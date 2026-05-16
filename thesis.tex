@@ -1,0 +1,37 @@
+% Minimal thesis root file for CI testing
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lipsum}
+
+\title{A Minimal Thesis Example}
+\author{Author Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+This is a minimal thesis compiled by the CI pipeline. Supervisors can annotate the published PDF using Hypothesis.
+\end{abstract}
+
+\tableofcontents
+
+\chapter{Introduction}
+\lipsum[1-3]
+
+\chapter{Related Work}
+\lipsum[4-6]
+
+\chapter{Method}
+\lipsum[7-9]
+
+\chapter{Results}
+\lipsum[10-12]
+
+\chapter{Conclusion}
+\lipsum[13-14]
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

@@ -1,0 +1,55 @@
+name: Build & Publish Thesis PDF
+
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: build-thesis
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Compile LaTeX and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Cache for Tectonic
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/tectonic
+            ~/.cache/tectonic-texlive
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.bib', '**/*.sty') }}
+
+      - name: Set up Tectonic (setup-tectonic)
+        uses: tectonic-typesetting/setup-tectonic@v1
+
+      - name: Compile LaTeX with Tectonic
+        run: |
+          # Run tectonic to produce thesis.pdf; --print_logs helps diagnose failures
+          tectonic --print_logs thesis.tex
+
+      - name: Ensure public directory exists and copy PDF
+        run: |
+          mkdir -p public
+          if [ -f thesis.pdf ]; then cp thesis.pdf public/thesis.pdf; else echo "thesis.pdf not found"; fi
+
+      - name: List public contents (for debug)
+        run: ls -la public || true
+
+      - name: Deploy to GitHub Pages (gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          allow_empty_commit: false
