@@ -30,12 +30,32 @@ jobs:
             ~/.cache/tectonic-texlive
           key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.bib', '**/*.sty') }}
 
-      - name: Set up Tectonic (setup-tectonic)
-        uses: tectonic-typesetting/setup-tectonic@v1
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Cache Cargo registry and binaries
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cargo/bin
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install tectonic if missing
+        run: |
+          if ! command -v tectonic >/dev/null 2>&1; then
+            cargo install --locked tectonic
+          else
+            echo "tectonic already installed"
+          fi
+          echo "${HOME}/.cargo/bin" >> $GITHUB_PATH
 
       - name: Compile LaTeX with Tectonic
         run: |
-          # Run tectonic to produce thesis.pdf; --print_logs helps diagnose failures
           tectonic --print_logs thesis.tex
 
       - name: Ensure public directory exists and copy PDF
