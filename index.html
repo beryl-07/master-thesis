@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Thesis Review Portal</title>
+    <style>
+      :root{--bg:#f7f7f8;--card:#ffffff;--muted:#6b7280}
+      html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111827}
+      header{padding:24px 28px;background:linear-gradient(90deg,#fff,#fbfbff);border-bottom:1px solid #e6e9ee}
+      .container{max-width:1100px;margin:24px auto;padding:0 18px}
+      h1{margin:0;font-size:20px;font-weight:600}
+      p.lead{color:var(--muted);margin:8px 0 0}
+      .viewer{margin-top:18px;background:var(--card);border:1px solid #e6e9ee;border-radius:8px;overflow:hidden;box-shadow:0 6px 20px rgba(16,24,40,0.04)}
+      .pdf-wrap{height:78vh}
+      iframe{width:100%;height:100%;border:0}
+      footer{max-width:1100px;margin:18px auto;padding:0 18px 48px;color:var(--muted);font-size:13px}
+      .note{margin-top:12px;padding:12px 14px;background:#fff;border-radius:6px;border:1px solid #eef2f7}
+      @media (max-width:700px){.pdf-wrap{height:62vh}}
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Thesis Review Portal</h1>
+        <p class="lead">Select any text in the thesis to leave comments. Hypothesis annotations are enabled below the PDF.</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="viewer">
+        <div class="pdf-wrap">
+          <iframe id="pdf-frame" src="thesis.pdf" title="Thesis PDF"></iframe>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>How to comment:</strong> Click and drag to select text directly inside the PDF viewer, then use the Hypothesis popup to add private or group annotations. Create a private group for supervisor-only discussions.
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>PDF served from the repository's `public/` folder and published to GitHub Pages. Hypothesis script is loaded asynchronously below.</p>
+      </div>
+    </footer>
+
+    <script async src="https://hypothes.is/embed.js"></script>
+  </body>
+</html>
