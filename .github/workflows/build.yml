@@ -70,7 +70,7 @@ jobs:
 
       - name: Compile LaTeX with Tectonic
         run: |
-          tectonic --print_logs thesis.tex
+          tectonic --print --keep-logs thesis.tex
 
       - name: Ensure public directory exists and copy PDF
         run: |
