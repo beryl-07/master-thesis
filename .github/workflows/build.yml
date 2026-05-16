@@ -47,6 +47,17 @@ jobs:
 
       - name: Install tectonic if missing
         run: |
+          echo "Installing system dependencies required by tectonic..."
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config \
+            libpng-dev \
+            zlib1g-dev \
+            libfreetype6-dev \
+            libfontconfig1-dev \
+            libexpat1-dev \
+            build-essential
+
           if ! command -v tectonic >/dev/null 2>&1; then
             cargo install --locked tectonic
           else
